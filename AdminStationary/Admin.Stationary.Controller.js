@@ -1,40 +1,26 @@
 const DBModelStationary = require("./Admin.Stationary.Model");
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: "./public/uploads",
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        Date.now() +
-        "." +
-        file.originalname.split(".").pop()
-    );
-  },
-});
-const upload = multer({ storage });
-// Upload data
-exports.create = (req, res, next) => {
-  upload.single("image")(req, res, async (err) => {
-    try {
-      const { productno, productname, productdescription } = req.body;
-      const image = req.file.filename;
 
-      const adminstationary = new DBModelStationary({
-        productno,
-        productname,
-        productdescription,
-        image,
-      });
-      await adminstationary.save();
+exports.create = async (req, res) => {
+  try {
+    const { filename } = req.file;
+    const { productno } = req.body;
+    const { productname } = req.body;
+    const { productdescription } = req.body;
 
-      res.status(201).json({ message: "Stationary created successfully" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Server error" });
-    }
-  });
+    const stationary = new DBModelStationary({
+      productno,
+      productname,
+      productdescription,
+      filename,
+    });
+
+    // Save the image to the database
+    await stationary.save();
+
+    res.status(200).json({ message: "Stationary uploaded successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to upload Stationary" });
+  }
 };
 
 // exports.create = async (req, res) => {

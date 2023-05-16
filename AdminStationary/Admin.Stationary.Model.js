@@ -14,9 +14,9 @@ var stationaryschema = new mongoose.Schema({
     required: true,
   },
 
-  image: {
-    data: Buffer,
-    contentType: String,
+  filename: {
+    type: String,
+    required: true,
   },
 });
 
