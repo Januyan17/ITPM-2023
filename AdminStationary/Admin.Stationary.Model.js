@@ -14,9 +14,9 @@ var stationaryschema = new mongoose.Schema({
     required: true,
   },
 
-  productimage: {
-    type: String,
-    // required: true,
+  image: {
+    data: Buffer,
+    contentType: String,
   },
 });
 
