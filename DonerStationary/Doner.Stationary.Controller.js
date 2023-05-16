@@ -1,4 +1,4 @@
-const DBModelStationary = require('./Doner.Stationary.Model');
+const DBModelStationary = require("./Doner.Stationary.Model");
 
 exports.create = async (req, res) => {
   if (
@@ -6,9 +6,11 @@ exports.create = async (req, res) => {
     !req.body.phone ||
     !req.body.email ||
     !req.body.address ||
-    !req.body.quantity
+    !req.body.quantity ||
+    !req.body.longitude ||
+    !req.body.latitude
   ) {
-    res.status(400).send({ message: 'All Fields Must Be Required!' });
+    res.status(400).send({ message: "All Fields Must Be Required!" });
   }
   const donerstationary = new DBModelStationary({
     name: req.body.name,
@@ -16,19 +18,21 @@ exports.create = async (req, res) => {
     email: req.body.email,
     address: req.body.address,
     quantity: req.body.quantity,
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
   });
 
   await donerstationary
     .save()
     .then((data) => {
       res.send({
-        message: 'created successfully!!',
+        message: "created successfully!!",
         data,
       });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while creating Stationary',
+        message: err.message || "Some error occurred while creating Stationary",
       });
     });
 };
@@ -53,9 +57,9 @@ exports.deleteSingle = async (req, res) => {
   try {
     DBModelStationary.findByIdAndRemove(req.params.id, (err, stationary) => {
       if (!stationary) {
-        res.status(404).send('404 Not Found');
+        res.status(404).send("404 Not Found");
       } else {
-        res.status(200).send(' Deleted Successfully');
+        res.status(200).send(" Deleted Successfully");
       }
     });
   } catch (err) {}
@@ -68,9 +72,9 @@ exports.updateSingle = async (req, res) => {
       req.body,
       (err, user) => {
         if (err) {
-          return res.status(500).send({ error: 'unsuccessful' });
+          return res.status(500).send({ error: "unsuccessful" });
         }
-        res.send({ success: 'success' });
+        res.send({ success: "success" });
       }
     );
   } catch (err) {}

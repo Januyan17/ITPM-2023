@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var donerstationary = new mongoose.Schema({
   name: {
@@ -22,6 +22,14 @@ var donerstationary = new mongoose.Schema({
     type: String,
     required: true,
   },
+  longitude: {
+    type: String,
+    required: true,
+  },
+  latitude: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = new mongoose.model('DonerDetail', donerstationary);
+module.exports = new mongoose.model("DonerDetail", donerstationary);
